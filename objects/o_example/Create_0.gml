@@ -2,8 +2,7 @@ fa = new FrogAlarms();
 
 fa.start(
 	function() {
-		show_debug_message("Hello");	
+		show_debug_message("Ribbit");
 	},
-	100,
-	"HelloAlarm"
+	200,
 );

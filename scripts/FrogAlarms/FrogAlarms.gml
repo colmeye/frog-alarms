@@ -1,41 +1,40 @@
 function FrogAlarms() constructor {
-	alarms = {};
-	default_idx = 50000;
+	frog_alarms = {};
+	default_idx = 0;
 	
 	
 	run = function() {
-		var keys = variable_struct_get_names(alarms);
+		var keys = variable_struct_get_names(frog_alarms);
+		if (array_length(keys) < 1) { return; }
 		
-		// Loop through all keys in alarms, decrement time
-		for (var i = array_length(keys)-1; i >= 0; --i) {
+		// Loop through all keys in frog_alarms, decrement time
+		for (var i = 0; i < array_length(keys); i++) {
+			
 			var key = keys[i];
-			var _alarm = alarms[$ key];
+			var frog_alarm = frog_alarms[$ key];
+			if (!frog_alarm.running) { continue; }
 			
-			// Don't use alarms that were removed or aren't running
-			if (_alarm == undefined) { continue; }
-			if (!_alarm.running) { continue; }
-			
-			_alarm.time -= 1;
+			frog_alarm.time -= 1;
 			
 			// Run the action if time reaches 0, and remove from struct
-			if (_alarm.time < 1) {
-				_alarm.action();
-				variable_struct_remove(alarms, key);
+			if (frog_alarm.time < 1) {
+				frog_alarm.action();
+				variable_struct_remove(frog_alarms, key);
 			}
 		}
 	}
 
 	
-	start = function(_function, _time, _idx = default_idx) {
-		idx = string(_idx);
+	start = function(_function, _time, _idx = ("__default_" + string(default_idx))) {
+		var idx = string(_idx);
 		
 		// Don't allow duplicates if an idx is specified
-		if (variable_struct_exists(alarms, idx)) {
+		if (variable_struct_exists(frog_alarms, idx)) {
 			return;
 		}
 		
-		// Add alarm to the running alarms
-		alarms[$ idx] = {
+		// Add alarm to the running frog_alarms
+		frog_alarms[$ idx] = {
 			running: true,
 			action: _function,
 			initial_time: _time,
@@ -46,37 +45,39 @@ function FrogAlarms() constructor {
 	}
 	
 	
-	reset = function(_idx) {
-		check_idx_exists(_idx);
-		alarms[$ _idx].time = alarms[$ _idx].initial_time;
+	restart = function(_idx) {
+		var idx = string(_idx);
+		if (!idx_exists(idx)) { return; }
+		frog_alarms[$ idx].time = frog_alarms[$ idx].initial_time;
 	}
 	
 	
 	pause = function(_idx) {
-		check_idx_exists(_idx);
-		alarms[$ _idx].running = false;
+		var idx = string(_idx);
+		if (!idx_exists(idx)) { return; }
+		frog_alarms[$ idx].running = false;
 	}
 	
 	
 	resume = function(_idx) {
-		check_idx_exists(_idx);
-		alarms[$ _idx].running = true;
+		var idx = string(_idx);
+		if (!idx_exists(idx)) { return; }
+		frog_alarms[$ idx].running = true;
 	}
 	
 	
 	remove = function(_idx) {
-		check_idx_exists(_idx);
-		variable_struct_remove(alarms, _idx);
+		var idx = string(_idx);
+		if (!idx_exists(idx)) { return; }
+		variable_struct_remove(frog_alarms, idx);
 	}
 	
-	
-	check_idx_exists = function(_idx) {
-		if (variable_struct_exists(alarms, _idx)) {
-			return true;	
-		} else {
-			// throw("FrogAlarm idx " + string(_idx) + " not found.");
+	idx_exists = function(_idx) {
+		if (!variable_struct_exists(frog_alarms, _idx)) {
+			show_debug_message("FrogAlarm: '" + string(_idx) + "' not found!");
 			return false;
 		}
+		return true;
 	}
 	
 	
