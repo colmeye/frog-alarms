@@ -28,7 +28,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oTest",
+  "name": "o_example",
   "tags": [],
   "resourceType": "GMObject",
 }

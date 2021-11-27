@@ -4,5 +4,6 @@ fa.start(
 	function() {
 		show_debug_message("Hello");	
 	},
-	100
+	100,
+	"HelloAlarm"
 );

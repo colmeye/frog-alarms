@@ -1,7 +1,7 @@
 {
   "resources": [
     {"id":{"name":"FrogAlarms","path":"scripts/FrogAlarms/FrogAlarms.yy",},"order":0,},
-    {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},"order":0,},
+    {"id":{"name":"o_example","path":"objects/o_example/o_example.yy",},"order":0,},
     {"id":{"name":"room_1","path":"rooms/room_1/room_1.yy",},"order":0,},
   ],
   "Options": [
@@ -45,7 +45,7 @@
   ],
   "IncludedFiles": [],
   "MetaData": {
-    "IDEVersion": "2.3.6.595",
+    "IDEVersion": "2.3.7.603",
   },
   "resourceVersion": "1.4",
   "name": "FrogAlarms",

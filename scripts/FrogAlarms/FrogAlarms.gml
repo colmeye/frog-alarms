@@ -2,16 +2,18 @@ function FrogAlarms() constructor {
 	alarms = {};
 	default_idx = 50000;
 	
-	static run = function() {
-		// Loop through all keys in alarms, decrement time
+	
+	run = function() {
 		var keys = variable_struct_get_names(alarms);
+		
+		// Loop through all keys in alarms, decrement time
 		for (var i = array_length(keys)-1; i >= 0; --i) {
 			var key = keys[i];
 			var _alarm = alarms[$ key];
 			
-			if (!_alarm.running) {
-				continue;	
-			}
+			// Don't use alarms that were removed or aren't running
+			if (_alarm == undefined) { continue; }
+			if (!_alarm.running) { continue; }
 			
 			_alarm.time -= 1;
 			
@@ -21,7 +23,6 @@ function FrogAlarms() constructor {
 				variable_struct_remove(alarms, key);
 			}
 		}
-		
 	}
 
 	
@@ -42,6 +43,40 @@ function FrogAlarms() constructor {
 		}
 		
 		default_idx++;
+	}
+	
+	
+	reset = function(_idx) {
+		check_idx_exists(_idx);
+		alarms[$ _idx].time = alarms[$ _idx].initial_time;
+	}
+	
+	
+	pause = function(_idx) {
+		check_idx_exists(_idx);
+		alarms[$ _idx].running = false;
+	}
+	
+	
+	resume = function(_idx) {
+		check_idx_exists(_idx);
+		alarms[$ _idx].running = true;
+	}
+	
+	
+	remove = function(_idx) {
+		check_idx_exists(_idx);
+		variable_struct_remove(alarms, _idx);
+	}
+	
+	
+	check_idx_exists = function(_idx) {
+		if (variable_struct_exists(alarms, _idx)) {
+			return true;	
+		} else {
+			// throw("FrogAlarm idx " + string(_idx) + " not found.");
+			return false;
+		}
 	}
 	
 	
