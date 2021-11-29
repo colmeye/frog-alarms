@@ -1,8 +1,8 @@
 fa = new FrogAlarms();
 
-fa.start(
+fa.create(
 	function() {
-		show_debug_message("Ribbit");
+		show_debug_message("Ribbit " + string(frame_count));
 	},
 	200,
 );
