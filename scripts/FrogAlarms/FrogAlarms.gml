@@ -5,8 +5,24 @@ function FrogAlarms() constructor {
 	
 	#region Frog Alarm Actions
 	
+		
+		list = function( _function = function(_alarm_idx) { return true; } ) {
+			var keys = variable_struct_get_names(frog_alarms);
+			if (array_length(keys) < 1) { return; }
+			
+			var filtered_alarms = [];
+			for (var i = 0; i < array_length(keys); i++) {
+				var key = keys[i];
+				if ( _function(key) ) {
+					array_push(filtered_alarms, key);
+				}
+			}
+			
+			return filtered_alarms;			
+		}
+		
 	
-		create = function(_function, _duration, _idx = ("__default_" + string(default_idx))) {
+		create = function( _function, _duration, _idx = ("__default_" + string(default_idx)) ) {
 			var idx = string(_idx);
 		
 			// Don't allow duplicates if an idx is specified
@@ -19,7 +35,7 @@ function FrogAlarms() constructor {
 				duration: _duration,
 				time: _duration,
 			}
-		
+			
 			default_idx++;
 		}
 		
@@ -48,30 +64,38 @@ function FrogAlarms() constructor {
 	
 	
 		restart = function(_idx) {
-			var idx = string(_idx);
-			if (!idx_exists(idx)) { return; }
-			frog_alarms[$ idx].time = frog_alarms[$ idx].duration;
+			var idx_array = make_array_of_strings(_idx);
+			for_each(idx_array, function(idx) {
+				if (!idx_exists(idx)) { return; }
+				frog_alarms[$ idx].time = frog_alarms[$ idx].duration;
+			});
 		}
 	
 	
 		pause = function(_idx) {
-			var idx = string(_idx);
-			if (!idx_exists(idx)) { return; }
-			frog_alarms[$ idx].running = false;
+			var idx_array = make_array_of_strings(_idx);
+			for_each(idx_array, function(idx) {
+				if (!idx_exists(idx)) { return; }
+				frog_alarms[$ idx].running = false;
+			});
 		}
 	
 	
 		resume = function(_idx) {
-			var idx = string(_idx);
-			if (!idx_exists(idx)) { return; }
-			frog_alarms[$ idx].running = true;
+			var idx_array = make_array_of_strings(_idx);
+			for_each(idx_array, function(idx) {
+				if (!idx_exists(idx)) { return; }
+				frog_alarms[$ idx].running = true;
+			});
 		}
 	
-	
+		
 		remove = function(_idx) {
-			var idx = string(_idx);
-			if (!idx_exists(idx)) { return; }
-			variable_struct_remove(frog_alarms, idx);
+			var idx_array = make_array_of_strings(_idx);
+			for_each(idx_array, function(idx) {
+				if (!idx_exists(idx)) { return; }
+				variable_struct_remove(frog_alarms, idx);
+			});
 		}
 	
 	
@@ -128,6 +152,27 @@ function FrogAlarms() constructor {
 				return false;
 			}
 			return true;
+		}
+		
+		
+		make_array_of_strings = function(_input) {
+			// If only one input, put it into an array
+			var input_array = is_array(_input) ? _input : [_input];
+			
+			// Convert all array elements to strings
+			var array = [];
+			for (var i = 0; i < array_length(input_array); i++) {
+				array_push( array, string(input_array[i]) );
+			}
+			
+			return array;
+		}
+		
+		
+		for_each = function( _array, _function ) {
+			for (var i = 0; i < array_length(_array); i++) {
+				_function(_array[i]);	
+			}
 		}
 	
 	
