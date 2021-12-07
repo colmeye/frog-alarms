@@ -4,5 +4,5 @@ fa.create(
 	function() {
 		show_debug_message("Ribbit");
 	},
-	120
+	120,
 );

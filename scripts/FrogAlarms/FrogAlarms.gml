@@ -105,8 +105,7 @@ function FrogAlarms() constructor {
 	
 		get_time = function(_idx) {
 			var idx = string(_idx);
-			if (!idx_exists(idx)) { return undefined; }
-			return frog_alarms[$ idx].time;
+			return idx_exists(idx) ? frog_alarms[$ idx].time : undefined;
 		}
 	
 	
@@ -123,8 +122,7 @@ function FrogAlarms() constructor {
 	
 		get_duration = function(_idx) {
 			var idx = string(_idx);
-			if (!idx_exists(idx)) { return undefined; }
-			return frog_alarms[$ idx].duration;
+			return idx_exists(idx) ? frog_alarms[$ idx].duration : undefined;
 		}
 	
 	
@@ -137,8 +135,13 @@ function FrogAlarms() constructor {
 	
 		is_running = function(_idx) {
 			var idx = string(_idx);
-			if (!idx_exists(idx)) { return; }
-			return frog_alarms[$ idx].running;
+			return idx_exists(idx) ? frog_alarms[$ idx].running : false;
+		}
+		
+		
+		exists = function(_idx) {
+			var idx = string(_idx);
+			return variable_struct_exists(frog_alarms, idx) ? true : false;
 		}
 	
 	
