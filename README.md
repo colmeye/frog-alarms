@@ -1,3 +1,5 @@
+![Frog Alarms Cover Image](cover.jpg?raw=true)
+
 # FrogAlarms
 
 FrogAlarms is a GameMaker Studio 2 asset that provides a simple and easy-to-use alternative to alarms.
