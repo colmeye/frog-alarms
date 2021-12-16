@@ -6,7 +6,7 @@ function FrogAlarms() constructor {
 	#region Frog Alarm Actions
 	
 		
-		list = function( _function = function(_alarm_idx) { return true; } ) {
+		 function list( _function = function(_alarm_idx) { return true; } ) {
 			var keys = variable_struct_get_names(frog_alarms);
 			if (array_length(keys) < 1) { return; }
 			
@@ -22,7 +22,7 @@ function FrogAlarms() constructor {
 		}
 		
 	
-		create = function( _function, _duration, _idx = ("__default_" + string(default_idx)) ) {
+		function create( _function, _duration, _idx = ("__default_" + string(default_idx)) ) {
 			var idx = string(_idx);
 		
 			// Don't allow duplicates if an idx is specified
@@ -40,7 +40,7 @@ function FrogAlarms() constructor {
 		}
 		
 		
-		run = function() {
+		function run() {
 			var keys = variable_struct_get_names(frog_alarms);
 			if (array_length(keys) < 1) { return; }
 		
@@ -50,7 +50,7 @@ function FrogAlarms() constructor {
 				var key = keys[i];
 				var frog_alarm = frog_alarms[$ key];
 			
-				if (!frog_alarm.running) { continue; }
+				if (frog_alarm == undefined || !frog_alarm.running) { continue; }
 			
 				frog_alarm.time -= 1;
 			
@@ -63,7 +63,7 @@ function FrogAlarms() constructor {
 		}
 	
 	
-		restart = function(_idx) {
+		function restart(_idx) {
 			var idx_array = make_array_of_strings(_idx);
 			for_each(idx_array, function(idx) {
 				if (!idx_exists(idx)) { return; }
@@ -72,7 +72,7 @@ function FrogAlarms() constructor {
 		}
 	
 	
-		pause = function(_idx) {
+		function pause(_idx) {
 			var idx_array = make_array_of_strings(_idx);
 			for_each(idx_array, function(idx) {
 				if (!idx_exists(idx)) { return; }
@@ -81,7 +81,7 @@ function FrogAlarms() constructor {
 		}
 	
 	
-		resume = function(_idx) {
+		function resume(_idx) {
 			var idx_array = make_array_of_strings(_idx);
 			for_each(idx_array, function(idx) {
 				if (!idx_exists(idx)) { return; }
@@ -90,7 +90,7 @@ function FrogAlarms() constructor {
 		}
 	
 		
-		remove = function(_idx) {
+		function remove(_idx) {
 			var idx_array = make_array_of_strings(_idx);
 			for_each(idx_array, function(idx) {
 				if (!idx_exists(idx)) { return; }
@@ -103,13 +103,13 @@ function FrogAlarms() constructor {
 	#region Getters and Setters
 	
 	
-		get_time = function(_idx) {
+		function get_time(_idx) {
 			var idx = string(_idx);
 			return idx_exists(idx) ? frog_alarms[$ idx].time : undefined;
 		}
 	
 	
-		set_time = function(_idx, _time) {
+		function set_time(_idx, _time) {
 			var idx = string(_idx);
 			if (!idx_exists(idx)) { return; }
 		
@@ -120,26 +120,26 @@ function FrogAlarms() constructor {
 		}
 	
 	
-		get_duration = function(_idx) {
+		function get_duration(_idx) {
 			var idx = string(_idx);
 			return idx_exists(idx) ? frog_alarms[$ idx].duration : undefined;
 		}
 	
 	
-		set_duration = function(_idx, _duration) {
+		function set_duration(_idx, _duration) {
 			var idx = string(_idx);
 			if (!idx_exists(idx)) { return; }
 			frog_alarms[$ idx].duration = _duration;
 		}
 	
 	
-		is_running = function(_idx) {
+		function is_running(_idx) {
 			var idx = string(_idx);
 			return idx_exists(idx) ? frog_alarms[$ idx].running : false;
 		}
 		
 		
-		exists = function(_idx) {
+		function exists(_idx) {
 			var idx = string(_idx);
 			return variable_struct_exists(frog_alarms, idx) ? true : false;
 		}
@@ -149,7 +149,7 @@ function FrogAlarms() constructor {
 	#region Utils
 	
 	
-		idx_exists = function(_idx) {
+		function idx_exists(_idx) {
 			if (!variable_struct_exists(frog_alarms, _idx)) {
 				show_debug_message("FrogAlarm: '" + string(_idx) + "' not found!");
 				return false;
@@ -158,7 +158,7 @@ function FrogAlarms() constructor {
 		}
 		
 		
-		make_array_of_strings = function(_input) {
+		function make_array_of_strings(_input) {
 			// If only one input, put it into an array
 			var input_array = is_array(_input) ? _input : [_input];
 			
@@ -172,7 +172,7 @@ function FrogAlarms() constructor {
 		}
 		
 		
-		for_each = function( _array, _function ) {
+		function for_each( _array, _function ) {
 			for (var i = 0; i < array_length(_array); i++) {
 				_function(_array[i]);	
 			}
