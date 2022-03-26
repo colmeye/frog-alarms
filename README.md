@@ -44,7 +44,7 @@ fa.create(
 ```
 
 ## Documentation
-Check out the [Wiki](https://github.com/colmeye/FrogAlarms/wiki) for more details!
+Check out the [Wiki](https://github.com/colmeye/FrogAlarms/wiki/Documentation) for more details!
 
 
 ## License
